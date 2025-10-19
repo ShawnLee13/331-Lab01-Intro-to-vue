@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Basic Vue Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+    </style>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ message }}</h1>
+        <p>Counter: {{ counter }}</p>
+        <button @click="increment">Increment</button>
+        
+        <!-- Simple template syntax test -->
+        <div v-if="counter > 5">Counter is greater than 5!</div>
+        <div v-else>Counter is 5 or less</div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+        
+        const app = createApp({
+            setup() {
+                const message = ref('Vue is working!');
+                const counter = ref(0);
+                
+                function increment() {
+                    counter.value++;
+                    console.log('Counter:', counter.value);
+                }
+                
+                return {
+                    message,
+                    counter,
+                    increment
+                };
+            }
+        });
+        
+        app.mount('#app');
+        console.log('Basic Vue app mounted successfully');
+    </script>
+</body>
+</html>

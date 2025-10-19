@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Vue App - SE331</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+         <script src="./components/ReviewForm.js"></script>
+        <script src="./components/ReviewList.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .nav-bar { background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; }
+        .cart { float: right; font-weight: bold; margin-bottom: 20px; }
+        .product-display { border: 1px solid #ddd; padding: 15px; margin: 15px 0; }
+        .product-container { display: flex; }
+        .product-image { margin-right: 20px; }
+        .product-image img { max-width: 200px; }
+        .out-of-stock-img { opacity: 0.5; }
+        .product-info { flex: 1; }
+        .button { background-color: #4CAF50; color: white; border: none; padding: 8px 12px; cursor: pointer; }
+        .disabledButton { background-color: #cccccc; cursor: not-allowed; }
+        .color-circle { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; }
+        .product-details {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .product-details h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .product-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .product-details li {
+            margin: 3px 0;
+            color: #555;
+        }
+        
+        .review {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .review-form {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .review-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .review-form input,
+        .review-form textarea,
+        .review-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        
+        .review-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+            <div class="nav-bar"></div>
+            <div class="cart">Cart({{ cart.length }})</div>
+            <product-display :premium="premium" @add-to-cart="updateCart" @remove-from-cart="removeFromCart"></product-display>
+            <product-display :premium="premium" @add-to-cart="updateCart" @remove-from-cart="removeFromCart"></product-display>
+            <product-display :premium="premium" @add-to-cart="updateCart" @remove-from-cart="removeFromCart"></product-display>
+        </div>
+
+    <script>
+        // Import the ProductDetails component
+        const productDetails = {
+            name: 'product-details',
+            props: {
+                details: {
+                    type: Array,
+                    required: true,
+                    default: () => []
+                }
+            },
+            template: `
+                <div class="product-details">
+                    <h3>Product Details</h3>
+                    <ul>
+                        <li v-for="(detail, index) in details" :key="index">{{ detail }}</li>
+                    </ul>
+                    <p v-if="details.length === 0">No details available.</p>
+                </div>
+            `
+        };
+        
+        // 创建Vue应用
+        const { createApp, ref, computed } = Vue;
+        
+        // 定义ProductDisplay组件
+        const productDisplay = {
+            props: {
+                premium: Boolean
+            },
+            template: `
+                <div class="product-display">
+                    <div class="product-container">
+                        <div class="product-image">
+                            <img :src="image" :class="{ 'out-of-stock-img': !inStock }">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h1>{{title}}</h1>
+                        <p v-if="inStock > 10">In Stock</p>
+                        <p v-else-if="inStock <= 10 && inStock > 0">Almost out of Stock</p>
+                        <p v-else>Out of Stock</p>
+                        <p>Shipping: {{shipping}}</p>
+                        <product-details :details="details"></product-details>
+                        <div v-for="(variant, index) in variants" :key="variant.id" @mouseover="updateVariant(index)"
+                            class="color-circle" :style="{backgroundColor: getColorCode(variant.color)}">
+                        </div>
+                        <button class="button" :disabled="!inStock" @click="addToCart" :class="{disabledButton: !inStock}">Add To Cart</button>
+                        <button class="button" style="background-color: #f44336; margin-left: 10px" @click="removeFromCart">Remove From Cart</button>
+                    </div>
+                    <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+                    <review-form @review-submitted="addReview"></review-form>
+                </div>
+            `,
+            setup(props, { emit }) {
+                const product = ref('Boots')
+                const brand = ref('SE 331')
+                const details = ref([
+                    '50% cotton',
+                    '30% wool',
+                    '20% polyester'
+                ])
+                const variants = ref([
+                    { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
+                    { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 }
+                ])
+                const selectedVariant = ref(0)
+                const reviews = ref([])
+                
+                // Helper function to convert color names to proper CSS color codes
+                function getColorCode(colorName) {
+                    const colorMap = {
+                        'green': '#228B22',
+                        'blue': '#4169E1'
+                    }
+                    return colorMap[colorName] || colorName;
+                }
+                
+                function updateVariant(index) {
+                    selectedVariant.value = index;
+                }
+                
+                const image = computed(() => {
+                    return variants.value[selectedVariant.value].image
+                })
+                
+                const inStock = computed(() => {
+                    return variants.value[selectedVariant.value].quantity
+                })
+                
+                function addToCart() {
+                    if (inStock.value > 0) {
+                        emit('add-to-cart', variants.value[selectedVariant.value].id)
+                    }
+                }
+                
+                function removeFromCart() {
+                    emit('remove-from-cart', variants.value[selectedVariant.value].id)
+                }
+                
+                function addReview(review) {
+                    reviews.value.push(review)
+                }
+                
+                const title = computed(() => {
+                    return brand.value + ' ' + product.value
+                })
+                
+                const shipping = computed(() => {
+                    return props.premium ? 'Free' : '$2.99'
+                })
+                
+                return {
+                    title,
+                    image,
+                    inStock,
+                    details,
+                    variants,
+                    addToCart,
+                    removeFromCart,
+                    updateVariant,
+                    getColorCode,
+                    shipping,
+                    reviews,
+                    addReview
+                }
+            }
+        }
+        
+        // 创建应用实例
+        const app = createApp({
+            setup() {
+                const cart = ref([])
+                const premium = ref(true) // 设置为true以显示免费shipping
+                
+                function updateCart(id) {
+                    cart.value.push(id)
+                }
+                
+                function removeFromCart(id) {
+                    // Find the index of the first occurrence of the product ID in the cart
+                    const index = cart.value.indexOf(id)
+                    // If found, remove it using splice
+                    if (index > -1) {
+                        cart.value.splice(index, 1)
+                    }
+                }
+                
+                return {
+                    cart,
+                    premium,
+                    updateCart,
+                    removeFromCart
+                }
+            }
+        })
+        
+        // 注册组件
+        app.component('product-display', productDisplay)
+        app.component('product-details', productDetails)
+        app.component('review-form', reviewForm)
+        app.component('review-list', reviewList)
+        
+        // 挂载应用
+        app.mount('#app')
+        
+        console.log('Fixed Vue app initialized successfully!');
+    </script>
+</body>
+</html>

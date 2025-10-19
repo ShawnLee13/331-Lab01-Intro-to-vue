@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vue Test</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="test-app">
+        <h1>{{ message }}</h1>
+        <p>Count: {{ count }}</p>
+        <button @click="increment">Increment</button>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue
+        
+        const app = createApp({
+            setup() {
+                const message = ref('Vue is working!')
+                const count = ref(0)
+                
+                function increment() {
+                    count.value++
+                }
+                
+                return {
+                    message,
+                    count,
+                    increment
+                }
+            }
+        })
+        
+        app.mount('#test-app')
+    </script>
+</body>
+</html>

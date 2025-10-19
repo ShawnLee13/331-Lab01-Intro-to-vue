@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Simple Vue Test</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        button { background-color: #4CAF50; color: white; border: none; padding: 8px 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Vue Test Page</h1>
+        <p>This is a super simple Vue app to test if Vue is working properly.</p>
+        
+        <h2>Basic Data Binding</h2>
+        <p>Message: {{ message }}</p>
+        <p>Counter: {{ counter }}</p>
+        <button @click="counter++">Increment</button>
+        
+        <h2>Product Display (with premium feature)</h2>
+        <div class="product">
+            <h3>{{ productName }}</h3>
+            <p>Price: ${{ price }}</p>
+            <p>Shipping: {{ shipping }}</p>
+            <p v-if="inStock">In Stock</p>
+            <p v-else>Out of Stock</p>
+            <button @click="addToCart" :disabled="!inStock">Add to Cart</button>
+        </div>
+    </div>
+
+    <script>
+        // 创建Vue应用
+        const { createApp, ref, computed } = Vue;
+        
+        const app = createApp({
+            setup() {
+                // 基本数据
+                const message = ref('Hello Vue!');
+                const counter = ref(0);
+                
+                // 产品数据
+                const productName = ref('SE 331 Boots');
+                const price = ref(99.99);
+                const inStock = ref(true);
+                const premium = ref(true); // 设置为true以显示免费 shipping
+                
+                // 计算属性
+                const shipping = computed(() => {
+                    return premium.value ? 'Free' : '$2.99';
+                });
+                
+                // 方法
+                const addToCart = () => {
+                    console.log('Product added to cart');
+                    alert('Product added to cart!');
+                };
+                
+                // 返回给模板使用的数据和方法
+                return {
+                    message,
+                    counter,
+                    productName,
+                    price,
+                    inStock,
+                    shipping,
+                    addToCart
+                };
+            }
+        });
+        
+        // 挂载应用
+        app.mount('#app');
+        
+        console.log('Super simple Vue app initialized');
+    </script>
+</body>
+</html>

@@ -50,6 +50,44 @@ h1 {
   font-size: 50px;
 }
 
+.sale-badge {
+  background-color: #ff4757;
+  color: white;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.sizes-container {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.sizes-container p {
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.size-option {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 5px;
+  background-color: #39495c;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.size-option:hover {
+  background-color: #52657e;
+}
+
 h3 {
   font-size: 25px;
 }

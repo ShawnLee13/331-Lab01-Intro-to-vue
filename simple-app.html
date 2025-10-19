@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Simple Vue App</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product-display { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        .button { background-color: #4CAF50; color: white; border: none; padding: 8px 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Simple Vue App</h1>
+        <div class="cart">Cart({{ cart }})</div>
+        <product-display :premium="premium"></product-display>
+    </div>
+
+    <script>
+        // 定义组件
+        const { ref, computed } = Vue;
+        
+        const productDisplay = {
+            props: {
+                premium: Boolean
+            },
+            template: `
+                <div class="product-display">
+                    <h2>{{ title }}</h2>
+                    <p>Shipping: {{ shipping }}</p>
+                    <button class="button" @click="addToCart">Add To Cart</button>
+                </div>
+            `,
+            setup(props) {
+                const product = ref('Boots')
+                const brand = ref('SE 331')
+                
+                const title = computed(() => {
+                    return brand.value + ' ' + product.value
+                })
+                
+                const shipping = computed(() => {
+                    return props.premium ? 'Free' : '$2.99'
+                })
+                
+                function addToCart() {
+                    console.log('Product added to cart')
+                }
+                
+                return {
+                    title,
+                    shipping,
+                    addToCart
+                }
+            }
+        }
+        
+        // 创建应用
+        const app = Vue.createApp({
+            setup() {
+                const cart = ref(0)
+                const premium = ref(true)
+                
+                return {
+                    cart,
+                    premium
+                }
+            }
+        })
+        
+        // 注册组件
+        app.component('product-display', productDisplay)
+        
+        // 挂载应用
+        app.mount('#app')
+        
+        console.log('Simple app initialized')
+    </script>
+</body>
+</html>

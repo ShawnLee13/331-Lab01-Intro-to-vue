@@ -8,24 +8,32 @@
     <link rel="stylesheet" href="./assets/styles.css" />
     <!-- Import Vue.js -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // Debug info
+        console.log('Vue loaded:', typeof Vue !== 'undefined');
+    </script>
 </head>
 
 <body>
     <div id="app">
         <div class="nav-bar"></div>
-        <div class="cart">Cart({{ cart}})</div>
+        <div class="cart">Cart({{ cart }})</div>
         <product-display :premium="premium"></product-display>
         <product-display :premium="premium"></product-display>
         <product-display :premium="premium"></product-display>
     </div>
 
-    <!-- Import Components -->
+    <!-- Import Components and Main JS in correct order -->
     <script src="./components/ProductDisplay.js"></script>
     <script src="./ProductReview.js"></script>
-    <!-- Import Js -->
     <script src="./main.js"></script>
-    <!-- Diagnostic Scripts -->
-    <script src="./diagnostic.js"></script>
+    
+    <!-- Debug Scripts -->
+    <script>
+        console.log('All scripts loaded');
+        console.log('productDisplay available:', typeof productDisplay !== 'undefined');
+        console.log('Vue app mounted:', document.getElementById('app') && typeof document.getElementById('app').__vue_app__ !== 'undefined');
+    </script>
 </body>
 
 </html>

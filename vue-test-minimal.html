@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vue Minimal Test</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ message }}</h1>
+        <p>Cart: {{ cart }}</p>
+        <button @click="incrementCart">Add to Cart</button>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+        
+        const app = createApp({
+            setup() {
+                const message = ref('Vue is working!')
+                const cart = ref(0)
+                
+                function incrementCart() {
+                    cart.value += 1
+                }
+                
+                return {
+                    message,
+                    cart,
+                    incrementCart
+                }
+            }
+        })
+        
+        app.mount('#app')
+        
+        console.log('Vue app mounted successfully')
+    </script>
+</body>
+</html>

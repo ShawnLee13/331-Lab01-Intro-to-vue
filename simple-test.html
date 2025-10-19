@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Simple Vue Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product-display { border: 1px solid #ddd; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .button { background-color: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+        .disabledButton { background-color: #ccc; cursor: not-allowed; }
+        .color-circle { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; }
+    </style>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Simple Vue Test</h1>
+        <p>Cart: {{ cart }}</p>
+        <product-display @add-to-cart="updateCart"></product-display>
+    </div>
+
+    <script src="./components/ProductDisplay.js"></script>
+    <script>
+        const { createApp, ref } = Vue;
+        
+        const app = createApp({
+            components: {
+                productDisplay
+            },
+            setup() {
+                const cart = ref(0);
+                
+                function updateCart() {
+                    cart.value += 1;
+                    console.log('Cart updated:', cart.value);
+                }
+                
+                return {
+                    cart,
+                    updateCart
+                };
+            }
+        });
+        
+        app.mount('#app');
+        console.log('Vue app mounted');
+    </script>
+</body>
+</html>

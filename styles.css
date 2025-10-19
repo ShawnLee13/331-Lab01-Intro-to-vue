@@ -1,0 +1,262 @@
+/* Basic styles for the Vue demo application */
+
+/* Cart navigation display */
+.cart {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Product display styles */
+.product-display {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Product info styles */
+.product-info {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.product-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.product-info h1 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.product-info h1 a:hover {
+    color: #0066cc;
+}
+
+/* Sale badge */
+.sale-badge {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+/* Product details list */
+.product-info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.product-info li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Size selection styles */
+.sizes-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.sizes-container p {
+    margin: 0 10px 0 0;
+    font-weight: bold;
+}
+
+.size-option {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: #39495c;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.size-option:hover {
+    background-color: #52657e;
+}
+
+/* Cart container styles */
+.cart-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-container p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Add to cart button styles */
+.add-to-cart-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #45a049;
+}
+
+/* Generic button styles for the variant add to cart button */
+.button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 15px 0;
+}
+
+/* Toggle stock status button */
+.toggle-stock-btn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 15px 0;
+}
+
+.toggle-stock-btn:hover {
+    background-color: #e68900;
+}
+
+/* Color circle for variants */
+.color-circle {
+    width: 50px;
+    height: 50px;
+    margin-top: 8px;
+    border: 2px solid #d8d8d8;
+    border-radius: 50%;
+}
+
+/* Disabled button styles */
+.disabledButton {
+    background-color: #d8d8d8;
+    cursor: not-allowed;
+}
+
+/* Out of stock image effect */
+.out-of-stock-image {
+    filter: grayscale(100%);
+}
+
+/* ProductReview component styles */
+.product-review {
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.product-review h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.product-review h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.review-list {
+    margin-bottom: 30px;
+}
+
+.review-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.review-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-rating {
+    color: #ff9800;
+    margin-bottom: 10px;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.review-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.review-submit-btn {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.review-submit-btn:hover {
+    background-color: #1976d2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+    }
+    
+    .product-info h1 {
+        font-size: 2rem;
+    }
+}
